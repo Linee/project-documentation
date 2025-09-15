@@ -4,32 +4,47 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Slides</title>
 <style>
- body { font: 16px/1.5 system-ui, sans-serif; margin: 2rem; }
- h1 { margin-bottom: .5rem; }
- ul { padding-left: 1.2rem; }
- li { margin: .25rem 0; }
- .muted { color: #666; font-size: .9em; }
+    body {
+        font: 16px/1.5 system-ui, sans-serif;
+        margin: 2rem;
+    }
+
+    h1 {
+        margin-bottom: .5rem;
+    }
+
+    ul {
+        padding-left: 1.2rem;
+    }
+
+    li {
+        margin: .25rem 0;
+    }
+
+    .muted {
+        color: #666;
+        font-size: .9em;
+    }
 </style>
-<h1>Projects</h1>
-<p class="muted">This list is generated from the repo’s top-level folders.</p>
+<h1>Line's Projects</h1>
 <ul id="list"></ul>
 <script>
- const OWNER = "linee";
- const REPO = "project-documentation";      // this repo’s name
- const API  = `https://api.github.com/repos/${OWNER}/${REPO}/contents/`;
- async function load() {
-  const res = await fetch(API, { headers: { "Accept": "application/vnd.github+json" }});
-  if (!res.ok) { document.getElementById('list').innerHTML = "<li>Failed to load.</li>"; return; }
-  const items = await res.json();
-  const dirs = items.filter(x => x.type === "dir" && !x.name.startsWith("."));
-  const ul = document.getElementById('list');
-  if (dirs.length === 0) { ul.innerHTML = "<li>No projects yet.</li>"; return; }
-  // Construct links relative to the site root; works for both project pages and custom domains
-  dirs.forEach(d => {
-   const li = document.createElement('li');
-   li.innerHTML = `<a href="./${encodeURIComponent(d.name)}/index.html">${d.name}</a>`;
-   ul.appendChild(li);
-  });
- }
- load();
+    const OWNER = "linee";
+    const REPO = "project-documentation";      // this repo’s name
+    const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/`;
+    async function load() {
+        const res = await fetch(API, { headers: { "Accept": "application/vnd.github+json" } });
+        if (!res.ok) { document.getElementById('list').innerHTML = "<li>Failed to load.</li>"; return; }
+        const items = await res.json();
+        const dirs = items.filter(x => x.type === "dir" && !x.name.startsWith("."));
+        const ul = document.getElementById('list');
+        if (dirs.length === 0) { ul.innerHTML = "<li>No projects yet.</li>"; return; }
+        // Construct links relative to the site root; works for both project pages and custom domains
+        dirs.forEach(d => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="./${encodeURIComponent(d.name)}/index.html">${d.name}</a>`;
+            ul.appendChild(li);
+        });
+    }
+    load();
 </script>
